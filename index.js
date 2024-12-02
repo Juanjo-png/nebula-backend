@@ -1,12 +1,4 @@
 "use strict"
-
-//instalar el paquete expres
-/**
- * El paquete Express es el framework de backend más popular de node
- * Proporciona un conjunto de herramientas para aplicaciones web, peticiones y respuestas http,
- * enrutamiento y middleware para construir y desplegar aplicaciones a gran escala
- */
-
 import express from 'express';
 import routerLibros from './src/routes/libros.routes.js' 
 import routerUsuarios from './src/routes/usuarios.routes.js' 
@@ -20,19 +12,13 @@ import routerNoticias from './src/routes/noticias.routes.js'
 import cors from 'cors'; 
 import {PORT}  from './src/config.js'
 import bodyParser from 'body-parser';
-//import './config.js'
 
-const app=express(); //creado el objeto con la instacia de express
-//configurar el puerto
-//const PORT=3000;
-//responder a los endpoint. Representa una acción de la API
+const app=express(); 
 
 //habilitar CORS
 app.use(cors());
 //middleware
 app.use(express.json());
-
-
 app.use(routerLibros);
 app.use(routerUsuarios);
 app.use(routerEtiquetas);
@@ -51,5 +37,5 @@ app.use((req, res)=>{
     })
 })
 app.listen(PORT,()=>{
-    console.log('escuchando solicitud');
+    console.log('Escuchando solicitud', PORT);
 })
