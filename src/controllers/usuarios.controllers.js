@@ -1,6 +1,6 @@
 import { body } from "express-validator";
 import conexion from "../mysql_conector.js";
-import bycrypt from "bcrypt";
+import bcrypt from "bcryptjs"; // Importa bcryptjs
 import jwt from "jsonwebtoken";
 
 export const getUsuarios = async (req, res) => {
@@ -186,13 +186,13 @@ export const updateUsuario = async (req, res) => {
 export const updateUsuContraseña = async (req, res) => {
     try {
         const { id } = req.params;
-        const {contraseña } = req.body; // Asegúrate de incluir la contraseña
+        const { contraseña } = req.body; // Asegúrate de incluir la contraseña
 
         if (!contraseña) {
             return res.status(400).json({ message: "La contraseña es requerida" });
         }
 
-        const hashedPassword = await bycrypt.hash(contraseña, 10);
+        const hashedPassword = await bcrypt.hash(contraseña, 10); // Usando bcryptjs
         const [result] = await conexion.query(
             "UPDATE usuarios SET contraseña = ? WHERE id = ?",
             [hashedPassword, id]
@@ -202,7 +202,7 @@ export const updateUsuContraseña = async (req, res) => {
             return res.status(404).json({ message: "Usuario no encontrado" });
         }
 
-        res.status(200).json({ message: "Usuario actualizado correctamente" });
+        res.status(200).json({ message: "Contraseña actualizada correctamente" });
     } catch (error) {
         console.error("Error en el servidor:", error);
         res.status(500).json({ message: "Error en el servidor" });
