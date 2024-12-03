@@ -1,7 +1,7 @@
 import { body } from "express-validator";
 import conexion from "../mysql_conector.js";
 import bcrypt from "bcryptjs"; 
-// import jwt from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 
 export const getUsuarios = async (req, res) => {
     //get cursos
@@ -136,14 +136,13 @@ export const loginUsuario = async (req, res) => {
         }
 
         const [idUsu] = await conexion.query("SELECT id FROM usuarios WHERE nombre = ?", [nombre]);
-        console.log(idUsu);
+        
+        const token = jwt.sign({
+            idUsuario: idUsu,
+            nombreUsuario: nombre,
+        }, process.env.SECRET_KEY || "pepito133")
 
-        // const token = jwt.sign({
-        //     idUsuario: idUsu,
-        //     nombreUsuario: nombre,
-        // }, process.env.SECRET_KEY || "pepito133")
-
-        // res.json({token});
+        res.json({token});
 
        
     } catch (error) {
