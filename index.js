@@ -11,6 +11,7 @@ import routerAdelantos from './src/routes/adelantos.routes.js';
 import routerNoticias from './src/routes/noticias.routes.js';
 import cors from 'cors';
 import { PORT } from './src/config.js';
+import conexion from './src/database.js'; // Importa tu conexión aquí
 
 const app = express();
 
@@ -30,6 +31,29 @@ app.use(routerPagos);
 app.use(routerEnvios);
 app.use(routerAdelantos);
 app.use(routerNoticias);
+
+// Ruta para mostrar tablas de la base de datos
+app.get('/tablas', async (req, res) => {
+    try {
+        const [rows] = await conexion.query('SHOW TABLES');
+        if (rows.length > 0) {
+            const tablas = rows.map(row => Object.values(row)[0]);
+            res.json({
+                message: `Conexión exitosa a la base de datos.`,
+                tablas: tablas
+            });
+        } else {
+            res.json({
+                message: `Conexión exitosa a la base de datos.`,
+                tablas: 'No se encontraron tablas en la base de datos.'
+            });
+        }
+    } catch (error) {
+        res.status(500).json({
+            message: `Error al obtener las tablas: ${error.message}`
+        });
+    }
+});
 
 // Middleware para manejar endpoints no encontrados (404)
 app.use((req, res) => {

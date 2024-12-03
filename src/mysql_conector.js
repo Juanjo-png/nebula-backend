@@ -19,12 +19,13 @@ const conexion=createPool(
 )
 
 // Verificar la conexión
+// Verificar la conexión
 conexion.getConnection()
     .then(() => {
-        console.log('Conexión a la base de datos exitosa');
+        console.log(`Conexión exitosa a la base de datos: ${DB_DATABASE}`);
     })
     .catch((error) => {
-        console.error('Error de conexión a la base de datos:', error);
+        console.error(`Error de conexión a la base de datos ${DB_DATABASE}:`, error);
     });
 
 export default conexion;
