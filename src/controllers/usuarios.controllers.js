@@ -93,6 +93,7 @@ export const registrarUsuario = async (req, res) => {
         const {nombre, correo, contraseña, admin, pregunta} = req.body;
         // const hashedPassword = await bycrypt.hash(contraseña, 10);
         // const hashedPregunta = await bycrypt.hash(pregunta, 10);
+        
         const [existeUsuario] = await conexion.query("SELECT * FROM usuarios WHERE nombre = ? AND contraseña = ?", [nombre, contraseña]);
         console.log(existeUsuario.length);
 
@@ -126,7 +127,7 @@ export const loginUsuario = async (req, res) => {
             });
         }
 
-        // const validarContraseña = await bycrypt.compare(contraseña,String(contraseñaUsu[0].contraseña))
+        const validarContraseña = await bycrypt.compare(contraseña,String(contraseñaUsu[0].contraseña))
         
         if (!validarContraseña) {
             return res.status(400).json({
@@ -135,6 +136,7 @@ export const loginUsuario = async (req, res) => {
         }
 
         const [idUsu] = await conexion.query("SELECT id FROM usuarios WHERE nombre = ?", [nombre]);
+        console.log(idUsu);
 
         // const token = jwt.sign({
         //     idUsuario: idUsu,
