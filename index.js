@@ -1,5 +1,6 @@
 "use strict";
 import express from 'express';
+import conexion from './src/mysql_conector.js';  // Asegúrate de que la ruta sea correcta
 import routerLibros from './src/routes/libros.routes.js';
 import routerUsuarios from './src/routes/usuarios.routes.js';
 import routerEtiquetas from './src/routes/etiquetas.routes.js';
@@ -11,7 +12,6 @@ import routerAdelantos from './src/routes/adelantos.routes.js';
 import routerNoticias from './src/routes/noticias.routes.js';
 import cors from 'cors';
 import { PORT } from './src/config.js';
-import conexion from './src/database.js'; // Importa tu conexión aquí
 
 const app = express();
 
@@ -32,6 +32,7 @@ app.use(routerEnvios);
 app.use(routerAdelantos);
 app.use(routerNoticias);
 
+// Middleware para manejar endpoints no encontrados (404)
 // Ruta para mostrar tablas de la base de datos
 app.get('/tablas', async (req, res) => {
     try {
@@ -53,13 +54,6 @@ app.get('/tablas', async (req, res) => {
             message: `Error al obtener las tablas: ${error.message}`
         });
     }
-});
-
-// Middleware para manejar endpoints no encontrados (404)
-app.use((req, res) => {
-    res.status(404).json({
-        message: "Endpoint no encontrado"
-    });
 });
 
 // Iniciar servidor
