@@ -22,7 +22,7 @@ app.use(cors());
 app.use(express.json()); // Puedes quitar bodyParser si usas express.json()
 
 // Rutas
-app.get(routerLibros);
+app.use(routerLibros);
 app.use(routerUsuarios);
 app.use(routerEtiquetas);
 app.use(routerCategorias);
@@ -35,7 +35,7 @@ app.use(routerNoticias);
 // Middleware para manejar endpoints no encontrados (404)
 app.get('/tablas', async (req, res) => {
     try {
-        const [rows] = await conexion.query('SELECT * FROM libros');
+        const [rows] = await conexion.query('SHOW TABLES');
         if (rows.length > 0) {
             const tablas = rows.map(row => Object.values(row)[0]);
             res.json({
