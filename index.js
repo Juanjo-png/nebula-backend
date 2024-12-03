@@ -33,27 +33,20 @@ app.use(routerAdelantos);
 app.use(routerNoticias);
 
 // Middleware para manejar endpoints no encontrados (404)
-app.get('/tablas', async (req, res) => {
+app.get('/test-libros', async (req, res) => {
     try {
-        const [rows] = await conexion.query('SHOW TABLES');
-        if (rows.length > 0) {
-            const tablas = rows.map(row => Object.values(row)[0]);
-            res.json({
-                message: `Conexión exitosa a la base de datos.`,
-                tablas: tablas
-            });
-        } else {
-            res.json({
-                message: `Conexión exitosa a la base de datos.`,
-                tablas: 'No se encontraron tablas en la base de datos.'
-            });
-        }
+      const [rows] = await conexion.query('SELECT * FROM libros');  // Realizar consulta a la tabla libros
+      if (rows.length > 0) {
+        console.log('Datos obtenidos de la tabla libros:', rows);  // Mostrar datos en la consola
+        res.json({ message: 'Datos obtenidos correctamente', data: rows });  // Enviar los datos como respuesta
+      } else {
+        res.status(404).json({ message: 'No se encontraron libros en la base de datos' });
+      }
     } catch (error) {
-        res.status(500).json({
-            message: `Error al obtener las tablas: ${error.message}`
-        });
+      console.error('Error al obtener los datos de la base de datos:', error);  // Mostrar el error en la consola
+      res.status(500).json({ message: 'Error al obtener los datos', error: error.message });
     }
-});
+  });
 
 // Iniciar servidor
 app.listen(PORT, () => {
