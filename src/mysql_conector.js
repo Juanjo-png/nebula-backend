@@ -18,4 +18,13 @@ const conexion=createPool(
     }
 )
 
+// Verificar la conexión
+conexion.getConnection()
+    .then(() => {
+        console.log('Conexión a la base de datos exitosa');
+    })
+    .catch((error) => {
+        console.error('Error de conexión a la base de datos:', error);
+    });
+
 export default conexion;
