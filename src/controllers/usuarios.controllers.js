@@ -1,6 +1,6 @@
 import { body } from "express-validator";
 import conexion from "../mysql_conector.js";
-import bcrypt from "bcryptjs"; // Importa bcryptjs
+import bcrypt from "bcryptjs"; 
 // import jwt from "jsonwebtoken";
 
 export const getUsuarios = async (req, res) => {
@@ -91,8 +91,8 @@ export const registrarUsuario = async (req, res) => {
     try {
         console.log(req.body);
         const {nombre, correo, contraseña, admin, pregunta} = req.body;
-        // const hashedPassword = await bycrypt.hash(contraseña, 10);
-        // const hashedPregunta = await bycrypt.hash(pregunta, 10);
+        const hashedPassword = await bcrypt.hash(contraseña, 10);
+        const hashedPregunta = await bcrypt.hash(pregunta, 10);
         
         const [existeUsuario] = await conexion.query("SELECT * FROM usuarios WHERE nombre = ? AND contraseña = ?", [nombre, contraseña]);
         console.log(existeUsuario.length);
@@ -127,7 +127,7 @@ export const loginUsuario = async (req, res) => {
             });
         }
 
-        const validarContraseña = await bcrypt.compare(contraseña,String(contraseñaUsu[0].contraseña))
+        const validarContraseña = await bcrypt.compare(contraseña, String(contraseñaUsu[0].contraseña));
         
         if (!validarContraseña) {
             return res.status(400).json({
