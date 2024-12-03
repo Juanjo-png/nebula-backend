@@ -11,8 +11,10 @@ const conexion=createPool(
         "user": DB_USER,
         "password":DB_PASSWORD,
         "database":DB_DATABASE,
-        "port":DB_PORT
-
+        "port":DB_PORT,
+        ssl: {
+            rejectUnauthorized: false, // Deshabilitar la verificación de certificados para permitir la conexión SSL
+        }
     }
 )
 
