@@ -1,7 +1,7 @@
 import { body } from "express-validator";
 import conexion from "../mysql_conector.js";
-// import bcrypt from "bcryptjs"; // Importa bcryptjs
-import jwt from "jsonwebtoken";
+import bcrypt from "bcryptjs"; // Importa bcryptjs
+// import jwt from "jsonwebtoken";
 
 export const getUsuarios = async (req, res) => {
     //get cursos
