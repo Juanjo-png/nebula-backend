@@ -127,7 +127,7 @@ export const loginUsuario = async (req, res) => {
             });
         }
 
-        const validarContraseña = await bycrypt.compare(contraseña,String(contraseñaUsu[0].contraseña))
+        const validarContraseña = await bcrypt.compare(contraseña,String(contraseñaUsu[0].contraseña))
         
         if (!validarContraseña) {
             return res.status(400).json({
