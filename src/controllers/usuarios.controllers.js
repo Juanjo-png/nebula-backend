@@ -94,7 +94,7 @@ export const registrarUsuario = async (req, res) => {
         const hashedPassword = await bcrypt.hash(contraseña, 10);
         const hashedPregunta = await bcrypt.hash(pregunta, 10);
         
-        const [existeUsuario] = await conexion.query("SELECT * FROM usuarios WHERE nombre = ? AND contraseña = ?", [nombre, contraseña]);
+        const [existeUsuario] = await conexion.query("SELECT * FROM usuarios WHERE nombre = ? AND contraseña = ?", [nombre, hashedPassword]);
         console.log(existeUsuario.length);
 
         if (existeUsuario.length > 0) {
@@ -103,7 +103,7 @@ export const registrarUsuario = async (req, res) => {
             });
         }
 
-        const [result] = await conexion.query("INSERT INTO usuarios (nombre, correo, contraseña, admin, Pregunta) VALUES (?, ?, ?, ?, ?)", [nombre, correo, contraseña, admin, pregunta]);
+        const [result] = await conexion.query("INSERT INTO usuarios (nombre, correo, contraseña, admin, Pregunta) VALUES (?, ?, ?, ?, ?)", [nombre, correo, hashedPassword, admin, hashedPregunta]);
         console.log(result);
         res.status(201).json({ id: result.insertId });
 
