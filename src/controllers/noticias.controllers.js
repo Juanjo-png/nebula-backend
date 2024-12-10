@@ -56,7 +56,7 @@ export const updateNoticias = async (req, res) => {
 
         const [result] = await conexion.query(
             "UPDATE noticias SET titulo = ?, contenido = ?, autor = ?, extracto = ?, miniatura = ? WHERE id = ?",
-            [titulo, contenido, autor, fecha, extracto, miniatura, id]
+            [titulo, contenido, autor, extracto, miniatura, id]
         );
 
         console.log("Resultado de la actualización:", result);
