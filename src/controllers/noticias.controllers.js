@@ -46,7 +46,7 @@ export const updateNoticias = async (req, res) => {
         const { id } = req.params;
         const { titulo, contenido, autor, fecha, extracto, miniatura} = req.body;
 
-        if (!titulo || !titulo || !contenido || !autor || !fecha || !extracto || !miniatura) {
+        if (!titulo || !titulo || !contenido || !autor  || !extracto || !miniatura) {
             console.log("Datos recibidos:", req.body);
             return res.status(400).json({ message: "Todos los campos son requeridos" });
         }
@@ -55,7 +55,7 @@ export const updateNoticias = async (req, res) => {
 
 
         const [result] = await conexion.query(
-            "UPDATE noticias SET titulo = ?, contenido = ?, autor = ?, fecha = ?, extracto = ?, miniatura = ? WHERE id = ?",
+            "UPDATE noticias SET titulo = ?, contenido = ?, autor = ?, extracto = ?, miniatura = ? WHERE id = ?",
             [titulo, contenido, autor, fecha, extracto, miniatura, id]
         );
 
