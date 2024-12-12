@@ -85,18 +85,36 @@ export const delEnvio = async (req, res) => {
 
 export const addEnvio = async (req, res) => {
     try {
-        console.log(req.body);
-        const { id, nombre, productos, direccion, usuario, estado, comunidad, codPostal, provincia} = req.body;
-        const [result] = await conexion.query("INSERT INTO envios (nombre, productos, direccion, usuario, estado, comunidad, codPostal, provincia) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?)", [nombre, productos, direccion, usuario, estado, comunidad, codPostal, provincia]);
-        console.log(result);
+        // Validar que todos los campos requeridos estén presentes
+        const { nombre, productos, direccion, usuario, estado, comunidad, codigoPostal, provincia } = req.body;
+        
+        if (!nombre || !productos || !direccion || !usuario || !estado || !comunidad || !codigoPostal || !provincia) {
+            return res.status(400).json({
+                message: "Faltan datos requeridos. Verifica el cuerpo de la solicitud."
+            });
+        }
+
+        // Insertar el envío en la base de datos
+        const [result] = await conexion.query(
+            `INSERT INTO envios 
+            (nombre, productos, direccion, usuario, estado, comunidad, codigoPostal, provincia) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+            [nombre, productos, direccion, usuario, estado, comunidad, codigoPostal, provincia]
+        );
+
+        // Responder con el ID del nuevo registro
         res.status(201).json({ id: result.insertId });
+
     } catch (error) {
-        console.error(error.message);
+        console.error("Error al agregar envío:", error.message);
+
+        // Responder con un error específico
         res.status(500).json({
-            message: "Error en el servidor"
+            message: "Error al procesar la solicitud. Intenta nuevamente."
         });
     }
 };
+
 
 export const updateEnvio = async (req, res) => {
     try {
