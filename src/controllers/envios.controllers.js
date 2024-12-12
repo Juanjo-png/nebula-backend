@@ -32,7 +32,7 @@ export const getEnvioPorUsuario = async (req, res) => {
     try {
         console.log(req.params);
         const { id } = req.params
-        const [result] = await conexion.query("SELECT * FROM envios WHERE usuario = ? && estado = 'Enviado' OR estado = 'Entregado' ORDER BY id DESC", [id]);
+        const [result] = await conexion.query("SELECT * FROM envios WHERE usuario = ? ORDER BY id DESC", [id]);
         console.log(result);
         res.status(200).json(result); //la  respuesta que devuelve el servidor
     } catch (error) {
