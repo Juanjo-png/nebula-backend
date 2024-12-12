@@ -86,8 +86,8 @@ export const delEnvio = async (req, res) => {
 export const addEnvio = async (req, res) => {
     try {
         console.log(req.body);
-        const { id, nombre, productos, direccion, usuario, estado} = req.body;
-        const [result] = await conexion.query("INSERT INTO envios (nombre, productos, direccion, usuario, estado) VALUES ( ?, ?, ?, ?, ?)", [nombre, productos, direccion, usuario, estado]);
+        const { id, nombre, productos, direccion, usuario, estado, comunidad, codPostal, provincia} = req.body;
+        const [result] = await conexion.query("INSERT INTO envios (nombre, productos, direccion, usuario, estado, comunidad, codPostal, provincia) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?)", [nombre, productos, direccion, usuario, estado, comunidad, codPostal, provincia]);
         console.log(result);
         res.status(201).json({ id: result.insertId });
     } catch (error) {
@@ -101,19 +101,19 @@ export const addEnvio = async (req, res) => {
 export const updateEnvio = async (req, res) => {
     try {
         const { id } = req.params;
-        const { nombre, productos, direccion, usuario, estado} = req.body;
+        const { nombre, productos, direccion, usuario, estado, comunidad, codPostal, provincia} = req.body;
 
-        if (!nombre || !productos || !direccion || !usuario || !estado) {
+        if (!nombre || !productos || !direccion || !usuario || !estado || !comunidad || !codPostal || !provincia) {
             console.log("Datos recibidos:", req.body);
             return res.status(400).json({ message: "Todos los campos son requeridos" });
         }
 
-        console.log("Datos recibidos:", { id, nombre, productos, direccion, usuario, estado});
+        console.log("Datos recibidos:", { id, nombre, productos, direccion, usuario, estado, comunidad, codPostal, provincia});
 
 
         const [result] = await conexion.query(
-            "UPDATE envios SET nombre = ?, productos = ?, direccion = ?, usuario = ?, estado = ? WHERE id = ?",
-            [nombre, productos, direccion, usuario, estado, id]
+            "UPDATE envios SET nombre = ?, productos = ?, direccion = ?, usuario = ?, estado = ?, comunidad = ?, codPostal = ?, provincia = ? WHERE id = ?",
+            [nombre, productos, direccion, usuario, estado, comunidad, codPostal, provincia, id]
         );
 
         console.log("Resultado de la actualización:", result);
