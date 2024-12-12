@@ -18,7 +18,7 @@ export const getEtiqueta = async (req, res) => {
     try {
         console.log(req.params);
         const { id } = req.params
-        const [result] = await conexion.query("SELECT nombre * FROM etiquetas WHERE id = ?", [id]);
+        const [result] = await conexion.query("SELECT * FROM etiquetas WHERE id = ?", [id]);
         console.log(result[0]);
         res.status(200).json(result[0]); //la  respuesta que devuelve el servidor
     } catch (error) {
