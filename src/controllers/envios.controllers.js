@@ -4,7 +4,7 @@ export const getEnvios = async (req, res) => {
     //get cursos
     try {
         //throw new Error();
-        const [result] = await conexion.query("SELECT * FROM envios ORDER BY id DESC");
+        const [result] = await conexion.query("SELECT envios.*, usuarios.nombre AS nombre_usuario FROM envios JOIN usuarios ON envios.usuario = usuarios.id ORDER BY envios.id DESC;");
         console.log(result);
         res.status(200).json(result);
     } catch (error) {
