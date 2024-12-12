@@ -119,18 +119,18 @@ export const addEnvio = async (req, res) => {
 export const updateEnvio = async (req, res) => {
     try {
         const { id } = req.params;
-        const { nombre, productos, direccion, usuario, estado, comunidad, codPostal, provincia} = req.body;
+        const { nombre, direccion, estado, comunidad, codPostal, provincia} = req.body;
 
-        if (!nombre || !productos || !direccion || !usuario || !estado || !comunidad || !codPostal || !provincia) {
+        if (!nombre ||  !direccion ||  !estado || !comunidad || !codPostal || !provincia) {
             console.log("Datos recibidos:", req.body);
             return res.status(400).json({ message: "Todos los campos son requeridos" });
         }
 
-        console.log("Datos recibidos:", { id, nombre, productos, direccion, usuario, estado, comunidad, codPostal, provincia});
+        console.log("Datos recibidos:", { id, nombre, direccion, estado, comunidad, codPostal, provincia});
 
 
         const [result] = await conexion.query(
-            "UPDATE envios SET nombre = ?, productos = ?, direccion = ?, usuario = ?, estado = ?, comunidad = ?, codigoPostal = ?, provincia = ? WHERE id = ?",
+            "UPDATE envios SET nombre = ?, direccion = ?, estado = ?, comunidad = ?, codigoPostal = ?, provincia = ? WHERE id = ?",
             [nombre, productos, direccion, usuario, estado, comunidad, codPostal, provincia, id]
         );
 
