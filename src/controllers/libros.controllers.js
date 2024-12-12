@@ -70,6 +70,20 @@ export const getLibroPorCategoria = async (req, res) => {
     }
 };
 
+export const getLibroPorEtiqueta = async (req, res) => {
+    try {
+        console.log(req.params);
+        const { id } = req.params;
+        const result = await conexion.query("SELECT * FROM libros WHERE etiqueta=?", [id]);
+        console.log(result[0]);
+        res.status(200).json(result);
+    } catch (error) {
+        res.status(500).json({
+            message: "Error en el servidor"
+        });
+    }
+};
+
 export const getNovedades = async (req, res) => {
     try {
         console.log(req.params);

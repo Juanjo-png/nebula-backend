@@ -3,7 +3,8 @@ import { Router } from 'express'
 import {
     getLibros, getLibro, delLibro, getLibrosSerie, addLibro,
     updateLibro, getLibroPorCategoria, getNovedades, getSerie,
-    getTodasNovedades, getLibroBusqueda, getLibroEditar
+    getTodasNovedades, getLibroBusqueda, getLibroEditar,
+    getLibroPorEtiqueta
 } from '../controllers/libros.controllers.js';
 import validateToken from './validateToken.js';
 
@@ -14,6 +15,7 @@ router.get("/libros/:id", getLibro)
 router.get("/libros/prueba/:id", getLibroEditar)
 router.get('/libros/serie/:id', getLibrosSerie);
 router.get('/libros/categoria/:id', getLibroPorCategoria);
+router.get('/libros/etiqueta/:id', getLibroPorEtiqueta);
 router.get('/libros/novedades/novedadesTodas', getTodasNovedades);
 router.get('/libros/novedades/:id', getNovedades);
 router.get('/series/:id', getSerie);
