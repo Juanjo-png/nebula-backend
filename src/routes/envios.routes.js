@@ -4,7 +4,7 @@ import {
     getEnvios, getEnvio, addEnvio,
     updateEnvio,
     getEnvioPorUsuario,
-    cancelarEnvio, 
+    cancelarEnvio, delEnvio
 } from '../controllers/envios.controllers.js';
 import validateToken from './validateToken.js';
 
@@ -14,6 +14,7 @@ router.get("/envios", getEnvios)
 router.get("/envios/:id", getEnvio)
 router.get("/envios/usuario/:id", getEnvioPorUsuario)
 router.post("/envios", addEnvio);
+router.delete("/envios/:id", delEnvio); 
 router.put("/envios/cancelar/:id", cancelarEnvio); 
 router.put("/envios/:id", updateEnvio);
 router.patch("/envios/:id", updateEnvio);

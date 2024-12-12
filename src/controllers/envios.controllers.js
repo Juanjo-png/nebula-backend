@@ -62,6 +62,27 @@ export const cancelarEnvio = async (req, res) => {
     }
 }
 
+export const delEnvio = async (req, res) => {
+    try {
+        const { id } = req.params
+        const [result] = await conexion.query("DELETE FROM envios WHERE id=?", [id]);
+        console.log(result);
+        if (result.affectedRows == 0) {
+            return res.status(400).json({
+                message: 'no existe'
+            })
+        } else {
+            return res.status(200).json({
+                message: 'ha sido borrado'
+            })
+        }
+    } catch (error) {
+        res.status(500).json({
+            message: "Error en el servidor"
+        })
+    }
+}
+
 export const addEnvio = async (req, res) => {
     try {
         console.log(req.body);
