@@ -130,7 +130,7 @@ export const updateEnvio = async (req, res) => {
 
 
         const [result] = await conexion.query(
-            "UPDATE envios SET nombre = ?, productos = ?, direccion = ?, usuario = ?, estado = ?, comunidad = ?, codPostal = ?, provincia = ? WHERE id = ?",
+            "UPDATE envios SET nombre = ?, productos = ?, direccion = ?, usuario = ?, estado = ?, comunidad = ?, codigoPostal = ?, provincia = ? WHERE id = ?",
             [nombre, productos, direccion, usuario, estado, comunidad, codPostal, provincia, id]
         );
 
