@@ -136,10 +136,12 @@ export const loginUsuario = async (req, res) => {
         }
 
         const [idUsu] = await conexion.query("SELECT id FROM usuarios WHERE nombre = ?", [nombre]);
+        const [admin] = await conexion.query("SELECT admin FROM usuarios WHERE nombre = ?", [nombre]);
         
         const token = jwt.sign({
             idUsuario: idUsu,
             nombreUsuario: nombre,
+            admin: admin,
         }, process.env.SECRET_KEY || "pepito133")
 
         res.json({token});
