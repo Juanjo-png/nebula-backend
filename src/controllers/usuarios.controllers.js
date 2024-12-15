@@ -50,8 +50,8 @@ export const recuperarContra = async (req, res) => {
         console.log(req.params);
         const {nombre, pregunta} = req.params
         const [result] = await conexion.query("SELECT * FROM usuarios WHERE nombre=? AND Pregunta=?", [nombre,pregunta]);
-        console.log(result);
-        res.status(200).json(result); //la  respuesta que devuelve el servidor
+        console.log(result[0]);
+        res.status(200).json(result[0]); //la  respuesta que devuelve el servidor
     } catch (error) {
         res.status(500).json({
             message: "Error en el servidor"
