@@ -48,14 +48,34 @@ export const getUsuarioByID = async (req, res) => {
 export const recuperarContra = async (req, res) => {
     try {
         console.log(req.params);
-        const {nombre, pregunta} = req.params
-        const [result] = await conexion.query("SELECT * FROM usuarios WHERE nombre=? AND Pregunta=?", [nombre,pregunta]);
-        console.log(result[0]);
-        res.status(200).json(result[0]); //la  respuesta que devuelve el servidor
+        const { nombre, pregunta } = req.params;
+
+        // Busca al usuario por nombre
+        const [result] = await conexion.query(
+            "SELECT * FROM usuarios WHERE nombre = ?",
+            [nombre]
+        );
+
+        if (result.length === 0) {
+            return res.status(404).json({ message: "Usuario no encontrado" });
+        }
+
+        const usuario = result[0];
+
+        // Compara la pregunta con la encriptada
+        const isMatch = await bcrypt.compare(pregunta, usuario.pregunta);
+
+        if (!isMatch) {
+            return res.status(400).json({ message: "La pregunta no coincide" });
+        }
+
+        // Devuelve el usuario si la pregunta coincide
+        res.status(200).json(usuario);
     } catch (error) {
+        console.error(error);
         res.status(500).json({
-            message: "Error en el servidor"
-        })
+            message: "Error en el servidor",
+        });
     }
 };
 
